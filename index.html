@@ -65,11 +65,14 @@
     // Вивести масив телефонних номерів користувачів, у яких баланс більше 2000 доларів
     // І знайти суму всіх балансів користувачів
 
+    const filterUsers = users.filter(item => +item.balance.replace(",", "").replace("$", "") > 2000)
+        .map(item => item.phone)
+    console.log(filterUsers);
+
+    // второй метод
 
     const phones = users.reduce((accum, user) => {
-        if (Math.round(Number(user["balance"].slice(1).split(",").map((item) => {
-            return item.split(".");
-        }).flat().join(""))/100) > 2000) {
+        if (+user["balance"].slice(1).replace(",", "") > 2000) {
            accum.push(user["phone"]);
         }
         return accum;
@@ -77,10 +80,9 @@
     }, []);
     console.log(phones)
 
+
     const sum = users.reduce((accum, user) => {
-        return accum + Math.round(Number(user["balance"].slice(1).split(",").map((item) => {
-            return item.split(".");
-        }).flat().join(""))/100);
+        return accum + +user["balance"].slice(1).replace(",", "");
     }, 0);
 console.log(sum);
 
